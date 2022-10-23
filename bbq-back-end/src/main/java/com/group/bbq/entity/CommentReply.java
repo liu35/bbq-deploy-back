@@ -16,12 +16,12 @@ import java.time.LocalDateTime;
 public class CommentReply {
     private static final long serialVersionUID = 1L;
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-    private Long userId;
+    private Integer id;
+    private Integer userId;
     private String username;
     private String avatar;
-    private Long commentId;
-    private Long replyId;
+    private Integer commentId;
+    private Integer replyId;
     private String replyName;
     private Integer replyNumber;
     private String content;
