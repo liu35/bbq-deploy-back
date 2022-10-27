@@ -44,7 +44,7 @@ jobs:
           username: root
           password: ${{secrets.PASSWORD}}
           port: 22
-          source: "bbq-back-end"
+          source: "bbq-back-end/target"
           target: "/root"
           rm: false
           
