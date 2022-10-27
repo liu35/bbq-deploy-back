@@ -62,4 +62,5 @@ jobs:
             docker-compose kill bbq
             docker-compose rm -f
             docker rmi -f $(docker images bbq:latest -q)
-            docker-compose up -d --no-recreatedocker-compose up -d --no-recreate
+            docker-compose up -d --no-recreate
+            
