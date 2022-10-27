@@ -37,7 +37,7 @@ jobs:
           cd bbq-back-end
           mvn -B package --file pom.xml -Dmaven.test.skip=true
         
-      - name: copy dist file with scp
+      - name: copy jar file with scp
         uses: appleboy/scp-action@master
         with: 
           host: ${{secrets.HOST}}
@@ -47,4 +47,19 @@ jobs:
           source: "bbq-back-end/target"
           target: "/root"
           rm: false
-          
+        
+      - name: deploy back end
+        uses: appleboy/ssh-action@master
+        with: 
+          host: ${{secrets.HOST}}
+          username: root
+          password: ${{secrets.PASSWORD}}
+          script: |
+            rm -rf /home/docker/bbq-1.0.0-SNAPSHOT.jar
+            cp -r /root/bbq-back-end/target/bbq-1.0.0-SNAPSHOT.jar /home/docker/
+            rm -rf /root/bbq-back-end
+            cd /home/docker/
+            docker-compose kill bbq
+            docker-compose rm -f
+            docker rmi -f $(docker images bbq:latest -q)
+            docker-compose up -d --no-recreatedocker-compose up -d --no-recreate
