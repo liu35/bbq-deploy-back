@@ -6,13 +6,11 @@ import com.group.bbq.common.lang.Result;
 import com.group.bbq.entity.ArticleType;
 import com.group.bbq.mapper.ArticleTypeMapper;
 import com.group.bbq.service.ArticleTypeService;
-import com.group.bbq.util.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>
@@ -37,16 +35,21 @@ public class ArticleTypeServiceImpl extends ServiceImpl<ArticleTypeMapper, Artic
 
     @Override
     public Result addType(String typeName) {
-        if (Objects.equals(ShiroUtil.getProfile().getRole(), "ADMIN")) {
-            ArticleType articleType = new ArticleType();
-            articleType.setName(typeName);
-            articleType.setCreateTime(LocalDateTime.now());
-            articleType.setUpdateTime(LocalDateTime.now());
-            articleType.setIsDelete(0);
-            articleTypeMapper.insert(articleType);
-            return Result.succ("add success");
-        } else {
-            return Result.fail("you are not admin");
-        }
+        ArticleType articleType = new ArticleType();
+        articleType.setRefCount((long)0);
+        articleType.setScope("USER");
+        articleType.setDescription(typeName);
+        articleType.setName(typeName);
+        articleType.setCreateTime(LocalDateTime.now());
+        articleType.setUpdateTime(LocalDateTime.now());
+        articleType.setIsDelete(0);
+        articleTypeMapper.insert(articleType);
+        return Result.succ("add success");
+    }
+
+    @Override
+    public Result deleteType(Long id) {
+        articleTypeMapper.deleteById(id);
+        return Result.succ("delete success");
     }
 }

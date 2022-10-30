@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.group.bbq.common.dto.UpdateUserPasswordDto;
 import com.group.bbq.common.lang.Result;
 import com.group.bbq.entity.User;
+import com.group.bbq.service.FollowService;
 import com.group.bbq.service.UserLoginLogService;
 import com.group.bbq.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -24,11 +25,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserLoginLogService userLoginLogService;
+    private final FollowService followService;
 
     @Autowired
-    public UserController(UserService userService , UserLoginLogService userLoginLogService) {
+    public UserController(UserService userService , UserLoginLogService userLoginLogService,FollowService followService) {
         this.userService = userService;
         this.userLoginLogService = userLoginLogService;
+        this.followService = followService;
     }
 
     @GetMapping("/{id}")
@@ -81,4 +84,41 @@ public class UserController {
                              @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
         return userService.getAllUserInfo(pageNum, pageSize);
     }
+
+    @GetMapping("/follower/list")
+    public Result getFollowerList(
+            @RequestParam Long userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize){
+        return followService.getFollowerList(userId,pageNum, pageSize);
+    }
+
+    @GetMapping("/comments/list")
+    public Result getCommentsList(
+            @RequestParam Long userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize){
+        return userService.getCommentsList(userId,pageNum, pageSize);
+    }
+
+    @GetMapping("/followed/list")
+    public Result getFollowedList(
+            @RequestParam Long userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize){
+        return followService.getFollowedList(userId,pageNum, pageSize);
+    }
+    @GetMapping("/approval/posts")
+    public Result getApprovalPostsList(
+            @RequestParam Long userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize){
+        return userService.getApprovalPostsList(userId,pageNum, pageSize);
+    }
+
+    @GetMapping("/followed/follower")
+    public Result isFollowedFollower(@RequestParam Long followed,@RequestParam Long follower){
+        return followService.isFollowerFollowed(followed, follower);
+    }
+
 }

@@ -26,4 +26,7 @@ public interface UserService extends IService<User> {
 
     Result getAllUserInfo(Integer pageNum, Integer pageSize);
 
+    Result getCommentsList(Long userId, Integer pageNum, Integer pageSize);
+
+    Result getApprovalPostsList(Long userId, Integer pageNum, Integer pageSize);
 }

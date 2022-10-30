@@ -14,4 +14,7 @@ public interface ArticleTypeService extends IService<ArticleType> {
     Result getTypes();
 
     Result addType(String typeName);
+
+
+    Result deleteType(Long id);
 }

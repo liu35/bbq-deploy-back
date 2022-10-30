@@ -11,10 +11,10 @@ bbq:
     header: Authorization
 spring:
   profiles:
-    active: dev
+    active: pro
   resources:
     static-locations:
 
 # Change the directory of this section when deploying
 upload:
-  path: D:/bbq/upload/
+  path: /usr/bbq/upload/

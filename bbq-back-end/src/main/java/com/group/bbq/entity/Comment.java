@@ -1,6 +1,7 @@
 package com.group.bbq.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -17,15 +18,17 @@ import java.time.LocalDateTime;
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-    private Integer userId;
+    private Long id;
+    private Long userId;
     private String username;
     private String avatar;
-    private Integer replyId;
     private Integer replyNum;
-    private Integer postId;
+    private Long postId;
     private String content;
     private Integer isDelete;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    @TableField(exist = false)
+    private Posts posts;
 }

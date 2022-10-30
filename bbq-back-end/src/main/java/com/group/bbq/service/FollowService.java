@@ -14,4 +14,10 @@ public interface FollowService extends IService<Follow> {
     Result add(Long authorId, Long followerId);
 
     Result delete(Long authorId, Long followerId);
+
+    Result getFollowerList(Long userId, Integer pageNum, Integer pageSize);
+
+    Result getFollowedList(Long userId, Integer pageNum, Integer pageSize);
+
+    Result isFollowerFollowed(Long followed,Long follower);
 }

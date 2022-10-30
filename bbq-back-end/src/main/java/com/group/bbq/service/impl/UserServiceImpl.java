@@ -9,8 +9,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.group.bbq.common.dto.UpdateUserPasswordDto;
 import com.group.bbq.common.lang.Result;
+import com.group.bbq.entity.Comment;
+import com.group.bbq.entity.PostApproval;
 import com.group.bbq.entity.Posts;
 import com.group.bbq.entity.User;
+import com.group.bbq.mapper.CommentMapper;
+import com.group.bbq.mapper.PostApprovalMapper;
+import com.group.bbq.mapper.PostsMapper;
 import com.group.bbq.mapper.UserMapper;
 import com.group.bbq.service.UserService;
 import com.group.bbq.util.ShiroUtil;
@@ -29,10 +34,16 @@ import java.util.Objects;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final UserMapper userMapper;
+    private final CommentMapper commentMapper;
+    private final PostApprovalMapper postApprovalMapper;
+    private final PostsMapper postsMapper;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper,CommentMapper commentMapper,PostApprovalMapper postApprovalMapper,PostsMapper postsMapper) {
         this.userMapper = userMapper;
+        this.commentMapper = commentMapper;
+        this.postApprovalMapper = postApprovalMapper;
+        this.postsMapper = postsMapper;
     }
 
     @Override
@@ -129,5 +140,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         IPage<User> userIPage = userMapper.selectPage(page, postsQueryWrapper);
 
         return Result.succ(userIPage);
+    }
+
+
+
+    @Override
+    public Result getCommentsList(Long userId, Integer pageNum, Integer pageSize) {
+        Page<Comment> commentPage = new Page<>(pageNum, pageSize);
+        IPage<Comment> data = commentMapper.selectPage(commentPage,
+                new QueryWrapper<Comment>().eq("user_id",userId).orderByDesc("create_time"));
+        for (Comment comment: data.getRecords()) {
+            comment.setPosts(postsMapper.selectById(comment.getPostId()));
+        }
+        return Result.succ(data);
+    }
+
+
+
+    @Override
+    public Result getApprovalPostsList(Long userId, Integer pageNum, Integer pageSize) {
+        Page<PostApproval> page = new Page<>(pageNum,pageSize);
+        IPage<PostApproval> data = postApprovalMapper.selectPage(page,
+                new QueryWrapper<PostApproval>().eq("user_id",userId));
+        for (PostApproval approval: data.getRecords()) {
+            approval.setPosts(postsMapper.selectById(approval.getPostId()));
+        }
+        return Result.succ(data);
     }
 }
