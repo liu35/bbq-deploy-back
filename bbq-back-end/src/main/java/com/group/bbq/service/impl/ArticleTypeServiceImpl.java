@@ -49,7 +49,10 @@ public class ArticleTypeServiceImpl extends ServiceImpl<ArticleTypeMapper, Artic
 
     @Override
     public Result deleteType(Long id) {
-        articleTypeMapper.deleteById(id);
+        int i = articleTypeMapper.deleteById(id);
+        if (i == 0){
+            return Result.fail("delete fail");
+        }
         return Result.succ("delete success");
     }
 }
