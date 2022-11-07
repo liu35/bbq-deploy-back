@@ -36,9 +36,4 @@ public class ArticleTypeController {
     public Result addType(@RequestParam String typeName) {
         return articleTypeService.addType(typeName);
     }
-
-    @GetMapping("/admin/type/delete")
-    public Result deleteType(@RequestParam Long id) {
-        return articleTypeService.deleteType(id);
-    }
 }

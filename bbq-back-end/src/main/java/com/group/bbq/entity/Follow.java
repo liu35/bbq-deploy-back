@@ -1,6 +1,5 @@
 package com.group.bbq.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -53,9 +52,6 @@ public class Follow implements Serializable {
      * record update time
      */
     private LocalDateTime updateTime;
-    @TableField(exist = false)
-    private User followerInfo;
-    @TableField(exist = false)
-    private User followedInfo;
+
 
 }

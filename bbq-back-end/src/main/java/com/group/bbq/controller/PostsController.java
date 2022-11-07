@@ -1,8 +1,6 @@
 package com.group.bbq.controller;
 
 
-import com.group.bbq.common.dto.AddCommentDto;
-import com.group.bbq.common.dto.AddReplyDto;
 import com.group.bbq.common.lang.Result;
 import com.group.bbq.entity.Posts;
 import com.group.bbq.service.PostsService;
@@ -52,10 +50,6 @@ public class PostsController {
     @GetMapping("/index/approval")
     public Result approval(Long postId, Long userId,Integer click) {
         return postsService.approval(postId, userId,click);
-    }
-    @GetMapping("/index/delete/approval")
-    public Result unApproval(Long postId, Long userId) {
-        return postsService.deleteApproval(postId, userId);
     }
 
     @GetMapping("/index/views")
@@ -114,24 +108,6 @@ public class PostsController {
                             @RequestParam(required = false) String search,
                             @RequestParam(required = false) Long typeId) {
         return postsService.allList(pageNum, pageSize, search, typeId);
-    }
-
-    @GetMapping("/comment/list")
-    public Result getCommentList(Long postId) {
-        return postsService.getCommentList(postId);
-    }
-
-    @PostMapping("/comment/add")
-    public Result addComment(@Validated @RequestBody AddCommentDto addCommentDto) {
-        System.out.println(addCommentDto);
-        return postsService.addNewComment(addCommentDto.getPostId(), addCommentDto.getUsername(), addCommentDto.getAvatar(), addCommentDto.getUserId(), addCommentDto.getContent());
-    }
-
-    @PostMapping("/reply/add")
-    public Result addReply(@Validated @RequestBody AddReplyDto addReplyDto) {
-        return postsService.addNewReply(addReplyDto.getCommentId(), addReplyDto.getUsername(),
-                addReplyDto.getAvatar(), addReplyDto.getUserId(), addReplyDto.getContent(),
-                addReplyDto.getReplyId(), addReplyDto.getReplyName());
     }
 
 }

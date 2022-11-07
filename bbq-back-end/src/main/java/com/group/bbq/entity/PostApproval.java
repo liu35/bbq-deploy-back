@@ -1,7 +1,6 @@
 package com.group.bbq.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -17,6 +16,4 @@ public class PostApproval {
     private Long id;
     private Long postId;
     private Long userId;
-    @TableField(exist = false)
-    private Posts posts;
 }

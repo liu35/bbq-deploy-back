@@ -19,8 +19,6 @@ public interface PostsService extends IService<Posts> {
 
     Result approval(Long postId, Long userId ,Integer click);
 
-    Result deleteApproval(Long postId, Long userId);
-
     Result views(Long postId);
 
     Result delete(Long postId);
@@ -42,10 +40,4 @@ public interface PostsService extends IService<Posts> {
     Result setPostsSeen(Long postId);
 
     Result allList(Integer pageNum, Integer pageSize, String search, Long typeId);
-
-    Result addNewComment(Long postId, String username,String avatar,Long userId, String content);
-
-    Result addNewReply(Long commentId, String username, String avatar, Long userId, String content, Long replyId, String replyName);
-
-    Result getCommentList(Long postId);
 }
